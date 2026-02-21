@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ellipse CAD Generator</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" type="image/png" href="../assets/Favicon.png">
+</head>
+
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="brandRow">
+          <div class="brandLeft">
+            <a href="../index.html">
+              <img class="brandLogo" src="../assets/Gasco%20Mfg%20Corp.png" alt="Gasco Mfg Corp" />
+            </a>
+          </div>
+
+          <div class="brandCenter">
+            <h1>Ellipse CAD Generator</h1>
+          </div>
+
+          <div class="brandRight">
+            <a href="../index.html">← Home</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="card">
+      <section class="grid">
+        <div class="field">
+          <label>Long Side ID (in)</label>
+          <input id="idLong" type="text" inputmode="decimal" />
+        </div>
+
+        <div class="field">
+          <label>Short Side ID (in)</label>
+          <input id="idShort" type="text" inputmode="decimal" />
+        </div>
+
+        <div class="field">
+          <label>Cross Section (in)</label>
+          <input id="cs" type="text" />
+          <div class="hint">
+            Supports Fractions &amp; Decimals (ex: <code>3/4</code>, <code>0.75</code>, <code>1 1/2</code>)
+          </div>
+        </div>
+
+    
+      </section>
+
+      <section class="validateBlock">
+        <button id="validateBtn" class="btn">Validate &amp; Preview</button>
+        <section class="status" id="status">Ready.</section>
+      </section>
+
+      <section class="previewWrap">
+        <canvas id="preview" width="860" height="420"></canvas>
+        <div class="hint smallCenter">Preview updates when you click Validate &amp; Preview.</div>
+      </section>
+
+      <section class="downloadBlock">
+        <div class="field downloadField">
+          <label>Enter CAD Name ↓</label>
+          <input id="filename" type="text" />
+          <div class="hint">File will automatically be saved as <code>.dxf</code></div>
+        </div>
+        <button id="downloadBtn" class="btn primary">Download DXF File</button>
+      </section>
+
+      <section class="footerNote">
+            <div class="pill">Units: Inches</div>
+            <div class="pill">Layers: Perimeter, Holes</div>
+        </section>  
+    </main>
+
+    <footer class="tiny">
+      © 2026 Dustin Smith — All Rights Reserved
+    </footer>
+  </div>
+
+  <script src="ellipse.js"></script>
+</body>
+</html>

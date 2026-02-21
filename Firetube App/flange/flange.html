@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flange CAD Generator</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" type="image/png" href="../assets/Favicon.png">
+</head>
+
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="brandRow">
+          <div class="brandLeft">
+            <a href="../index.html">
+              <img class="brandLogo" src="../assets/Gasco%20Mfg%20Corp.png" alt="Gasco Mfg Corp" />
+            </a>
+          </div>
+
+          <div class="brandCenter">
+            <h1>Flange CAD Generator</h1>
+          </div>
+
+          <div class="brandRight">
+            <a href="../index.html">← Home</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="card">
+      <section class="grid">
+
+        <!-- OD -->
+        <div class="field">
+          <label>OD X (in)</label>
+          <input id="odX" type="text" inputmode="decimal" />
+        </div>
+        <div class="field">
+          <label>OD Y (in)</label>
+          <input id="odY" type="text" inputmode="decimal" />
+        </div>
+
+      <!-- Corner radius -->
+        <div class="field">
+        <label>Corner Radius (in)</label>
+        <input id="cornerR" type="text" inputmode="decimal" />
+        <div class="hint">
+            Supports Fractions &amp; Decimals (ex: <code>3/4</code>, <code>0.75</code>, <code>1 1/2</code>)
+        </div>
+        </div>
+
+        <div class="field noteBox">
+        <div class="noteTitle">Corner Radius Notes</div>
+        <div class="noteText">
+            Leave blank for square corners.
+        </div>
+        </div>
+
+        <!-- Bolt holes (4 total, using center-to-center X/Y) -->
+        <div class="field">
+          <label>Bolt Hole Center To Center X (in)</label>
+          <input id="bhCCX" type="text" inputmode="decimal" />
+        </div>
+        <div class="field">
+          <label>Bolt Hole Center To Center Y (in)</label>
+          <input id="bhCCY" type="text" inputmode="decimal" />
+        </div>
+
+        <div class="field">
+          <label>Bolt Hole Diameter (in)</label>
+          <input id="bhDia" type="text" />
+          <div class="hint">
+            Supports Fractions &amp; Decimals (ex: <code>3/4</code>, <code>0.75</code>, <code>1 1/2</code>)
+          </div>
+        </div>
+        <div class="field blank"></div>
+
+        <!-- Center cutout type -->
+        <div class="field">
+          <label>Center Cutout</label>
+          <select id="cutoutType">
+            <option value="circle" selected>Circle</option>
+            <option value="square">Square</option>
+          </select>
+          <div class="hint">Circle uses one value. Square uses X &amp; Y.</div>
+        </div>
+        <div class="field blank"></div>
+
+        <!-- Circle cutout -->
+        <div class="field" id="circleRow">
+          <label>Center Cutout Diameter (in)</label>
+          <input id="cutoutDia" type="text" inputmode="decimal" />
+        </div>
+        <div class="field blank" id="circleBlank"></div>
+
+        <!-- Square cutout -->
+        <div class="field" id="squareRowX" style="display:none;">
+          <label>Center Cutout X (in)</label>
+          <input id="cutoutX" type="text" inputmode="decimal" />
+        </div>
+        <div class="field" id="squareRowY" style="display:none;">
+          <label>Center Cutout Y (in)</label>
+          <input id="cutoutY" type="text" inputmode="decimal" />
+        </div>
+        <!-- Square cutout corner radius (only for square cutout) -->
+        <div class="field" id="squareRadRow" style="display:none;">
+        <label>Center Cutout Corner Radius (in)</label>
+        <input id="cutoutR" type="text" inputmode="decimal" />
+        <div class="hint">
+            Supports Fractions &amp; Decimals (ex: <code>3/4</code>, <code>0.75</code>, <code>1 1/2</code>)
+        </div>
+        </div>
+
+        <div class="field noteBox" id="squareRadNote" style="display:none;">
+        <div class="noteTitle">Cutout Radius Notes</div>
+        <div class="noteText">
+            Leave blank for square cutout corners.
+        </div>
+        </div>
+
+      </section>
+
+      <section class="validateBlock">
+        <button id="validateBtn" class="btn">Validate &amp; Preview</button>
+        <section class="status" id="status">Ready.</section>
+      </section>
+
+      <section class="previewWrap">
+        <canvas id="preview" width="860" height="420"></canvas>
+        <div class="hint smallCenter">Preview updates when you click Validate &amp; Preview.</div>
+      </section>
+
+      <section class="downloadBlock">
+        <div class="field downloadField">
+          <label>Enter CAD Name ↓</label>
+          <input id="filename" type="text" />
+          <div class="hint">File will automatically be saved as <code>.dxf</code></div>
+        </div>
+        <button id="downloadBtn" class="btn primary" disabled>Enter CAD Name to Download</button>
+      </section>
+
+      <section class="footerNote">
+        <div class="pill">Units: Inches</div>
+        <div class="pill">Layers: Perimeter, Holes</div>
+      </section>
+    </main>
+
+    <footer class="tiny">
+      © <span id="year"></span> Dustin Smith — All Rights Reserved
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = String(new Date().getFullYear());
+  </script>
+  <script src="flange.js"></script>
+</body>
+</html>
