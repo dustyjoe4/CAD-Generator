@@ -350,38 +350,77 @@ function evaluateClearances(bd) {
    DXF Build
 -------------------------------- */
 function buildDXF(inputs, holeCenters) {
-  const dxf = [];
-  // dxf.push("0","SECTION","2","HEADER");
-  // dxf.push("9","$INSUNITS","70","1");
+  // const dxf = [];
+  // // dxf.push("0","SECTION","2","HEADER");
+  // // dxf.push("9","$INSUNITS","70","1");
+  // // dxf.push("0","ENDSEC");
+  //  // 
+  //  dxf.push("0","SECTION","2","HEADER");
+  //  dxf.push("9","$ACADVER");
+  //  dxf.push("1","AC1009");   // DXF R12
+  //  dxf.push("9","$INSUNITS");
+  //  dxf.push("70","1");
+  //  dxf.push("0","ENDSEC");
+
+  // dxf.push("0","SECTION","2","TABLES");
+  // dxf.push("0","TABLE","2","LAYER","70","2");
+  // dxf.push("0","TABLE","2","LAYER","70","2");
+  // dxf.pop(); // (noop safety; keeps structure simple)
+
+  // // Write layer table properly
+  // dxf.push("0","TABLE","2","LAYER","70","2");
+  // addLayerDef(dxf, "Perimeter");
+  // addLayerDef(dxf, "Holes");
+  // dxf.push("0","ENDTAB");
   // dxf.push("0","ENDSEC");
-   dxf.push("0","SECTION","2","HEADER");
-   dxf.push("9","$ACADVER");
-   dxf.push("1","AC1009");   // DXF R12
-   dxf.push("9","$INSUNITS");
-   dxf.push("70","1");
-   dxf.push("0","ENDSEC");
 
+  // dxf.push("0","SECTION","2","ENTITIES");
+  // addObroundOutline(dxf, "Perimeter", inputs.odLong, inputs.odShort, 0, 0);
+  // addObroundOutline(dxf, "Holes", inputs.idLong, inputs.idShort, 0, 0);
+
+  // const holeR = inputs.holeDia / 2;
+  // for (const [x, y] of holeCenters) addCircle(dxf, "Holes", x, y, holeR);
+
+  // dxf.push("0","ENDSEC","0","EOF");
+  // return dxf.join("\n");
+
+  const dxf = [];
+
+  // HEADER
+  dxf.push("0","SECTION","2","HEADER");
+  dxf.push("9","$ACADVER","1","AC1009");   // R12
+  dxf.push("9","$INSUNITS","70","1");      // Inches (some importers ignore; OK)
+  dxf.push("0","ENDSEC");
+
+  // TABLES (clean LAYER table)
   dxf.push("0","SECTION","2","TABLES");
-  dxf.push("0","TABLE","2","LAYER","70","2");
-  dxf.push("0","TABLE","2","LAYER","70","2");
-  dxf.pop(); // (noop safety; keeps structure simple)
-
-  // Write layer table properly
   dxf.push("0","TABLE","2","LAYER","70","2");
   addLayerDef(dxf, "Perimeter");
   addLayerDef(dxf, "Holes");
   dxf.push("0","ENDTAB");
   dxf.push("0","ENDSEC");
 
+  // ENTITIES
   dxf.push("0","SECTION","2","ENTITIES");
+
+  // OD on Perimeter
   addObroundOutline(dxf, "Perimeter", inputs.odLong, inputs.odShort, 0, 0);
+
+  // ID on Holes
   addObroundOutline(dxf, "Holes", inputs.idLong, inputs.idShort, 0, 0);
 
+  // Bolt holes on Holes
   const holeR = inputs.holeDia / 2;
-  for (const [x, y] of holeCenters) addCircle(dxf, "Holes", x, y, holeR);
+  for (const [x, y] of holeCenters) {
+    addCircle(dxf, "Holes", x, y, holeR);
+  }
 
   dxf.push("0","ENDSEC","0","EOF");
   return dxf.join("\n");
+
+
+
+   
 }
 
 /* -----------------------------
