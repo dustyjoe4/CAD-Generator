@@ -351,9 +351,15 @@ function evaluateClearances(bd) {
 -------------------------------- */
 function buildDXF(inputs, holeCenters) {
   const dxf = [];
-  dxf.push("0","SECTION","2","HEADER");
-  dxf.push("9","$INSUNITS","70","1");
-  dxf.push("0","ENDSEC");
+  // dxf.push("0","SECTION","2","HEADER");
+  // dxf.push("9","$INSUNITS","70","1");
+  // dxf.push("0","ENDSEC");
+   dxf.push("0","SECTION","2","HEADER");
+   dxf.push("9","$ACADVER");
+   dxf.push("1","AC1009");   // DXF R12
+   dxf.push("9","$INSUNITS");
+   dxf.push("70","1");
+   dxf.push("0","ENDSEC");
 
   dxf.push("0","SECTION","2","TABLES");
   dxf.push("0","TABLE","2","LAYER","70","2");
