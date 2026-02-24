@@ -330,16 +330,25 @@ function evaluateClearances(bd) {
   const warnings = [];
   const errors = [];
 
+  // Use a tiny tolerance so floating-point math doesn't create "false touching"
+  const EPS = 0.0005; // ~half a thou
+
   function rule(label, value) {
-    if (value < 0.5) {
+    // Touching or overlapping (edge-to-edge clearance <= 0) => ERROR (block download)
+    if (value <= EPS) {
       errors.push(`${label}: Current clearance is ${value.toFixed(3)} inches.`);
-    } else if (value < 1.0) {
+      return;
+    }
+
+    // Less than 1" clearance (but not touching) => WARNING (allow download)
+    if (value < 1.0) {
       warnings.push(`${label}: Current clearance is ${value.toFixed(3)} inches.`);
     }
   }
 
   rule("Long Side - Edge Of Hole to OD", bd.longToOD);
   rule("Long Side - Edge Of Hole to ID", bd.longToID);
+
   rule("Short Side - Edge Of Hole to OD", bd.shortToOD);
   rule("Short Side - Edge Of Hole to ID", bd.shortToID);
 
